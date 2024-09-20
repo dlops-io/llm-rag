@@ -41,15 +41,34 @@ This will:
 * Saves the chunks with their embeddings as new JSONL files
 
 ## Load Embeddings into Vector Database
+Load the generated embeddings into ChromaDB:
 
 `python cli.py --load --chunk_type char-split`
 
 `python cli.py --load --chunk_type recursive-split`
 
+This will:
+* Connects to your ChromaDB instance
+* Creates a new collection (or clears an existing one)
+* Loads the embeddings and associated metadata into the collection
+
 ## Query the Vector Database
+Test querying the vector database:
 
 `python cli.py --query --chunk_type recursive-split`
 
+This will:
+* Generate an embedding for a sample query
+* Perform similarity searches in the vector database
+* Apply various types of filters on the queries
+
 ## Chat with the LLM
+Chat with the LLM using the RAG system:
 
 `python cli.py --chat --chunk_type recursive-split`
+
+This will:
+* Takes a sample query
+* Retrieves relevant context from the vector database
+* Sends the query and context to the LLM
+* Displays the LLM's response
