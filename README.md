@@ -1,2 +1,1 @@
-# llm-rag
-Retrieval Augmented Generation (RAG) for LLMs
+# Retrieval Augmented Generation (RAG) for LLMs
