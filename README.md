@@ -16,22 +16,29 @@ In this tutorial we will build a Retrieval-Augmented Generation (RAG) system usi
 Run the cli.py script with the --chunk flag to split your input texts into smaller chunks:
 
 Perform Character splitting:
-`python script.py --chunk --chunk_type char-split`
 
-This will:
-* Read each text file in the input-datasets/books directory
-* Split the text into chunks using character-based splitting
-* Save the chunks as JSONL files in the outputs directory
+`python cli.py --chunk --chunk_type char-split`
 
 Perform Recursive Character splitting:
-`python script.py --chunk --chunk_type recursive-split`
+
+`python cli.py --chunk --chunk_type recursive-split`
 
 This will:
 * Read each text file in the input-datasets/books directory
-* Split the text into chunks using recursive splitting
+* Split the text into chunks using the specified method (character-based or recursive)
 * Save the chunks as JSONL files in the outputs directory
 
 ## Generate Embeddings
+Generate embeddings for the text chunks:
+
+`python cli.py --embed --chunk_type char-split`
+
+`python cli.py --embed --chunk_type recursive-split`
+
+This will:
+* Reads the chunk files created in the previous section
+* Uses Vertex AI's text embedding model to generate embeddings for each chunk
+* Saves the chunks with their embeddings as new JSONL files
 
 ## Load Embeddings into Vector Database
 
