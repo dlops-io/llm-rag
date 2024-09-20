@@ -42,6 +42,14 @@ This will:
 
 ## Load Embeddings into Vector Database
 
+`python cli.py --load --chunk_type char-split`
+
+`python cli.py --load --chunk_type recursive-split`
+
 ## Query the Vector Database
 
+`python cli.py --query --chunk_type recursive-split`
+
 ## Chat with the LLM
+
+`python cli.py --chat --chunk_type recursive-split`
