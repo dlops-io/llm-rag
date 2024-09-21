@@ -2,7 +2,11 @@
 
 In this tutorial we will build a Retrieval-Augmented Generation (RAG) system using a vector database and a Large Language Model (LLM). The system will chunk text documents, create embeddings, stores them in a vector database, and uses them to enhance LLM responses.
 
-<img src="llm-rag-flow.png"  width="800">
+**Step 1:**
+<img src="images/llm-rag-flow-1.png"  width="800">
+**Step 2:**
+<img src="images/llm-rag-flow-2.png"  width="800">
+
 
 ## Prerequisites
 * Have Docker installed
