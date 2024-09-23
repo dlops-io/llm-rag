@@ -19,11 +19,11 @@ In this tutorial we will build a Retrieval-Augmented Generation (RAG) system usi
 ## Chunk Documents
 Run the cli.py script with the --chunk flag to split your input texts into smaller chunks. To understand more about chunking check out this [visualization](https://ac215-llm-rag.dlops.io/chunkviz)
 
-Perform Character splitting:
+**Perform Character splitting:**
 
 `python cli.py --chunk --chunk_type char-split`
 
-Perform Recursive Character splitting:
+**Perform Recursive Character splitting:**
 
 `python cli.py --chunk --chunk_type recursive-split`
 
@@ -43,6 +43,7 @@ This will:
 * Reads the chunk files created in the previous section
 * Uses Vertex AI's text embedding model to generate embeddings for each chunk
 * Saves the chunks with their embeddings as new JSONL files
+* We use Vertex AI `text-embedding-004` model to generate the embeddings
 
 ## Load Embeddings into Vector Database
 Load the generated embeddings into ChromaDB:
@@ -56,6 +57,8 @@ This will:
 * Creates a new collection (or clears an existing one)
 * Loads the embeddings and associated metadata into the collection
 
+To view the contents of your Vector Database you can use this [Chroma UI Tool](https://ac215-llm-rag.dlops.io/chromaui)
+
 ## Query the Vector Database
 Test querying the vector database:
 
@@ -66,7 +69,7 @@ This will:
 * Perform similarity searches in the vector database
 * Apply various types of filters on the queries
 
-## Chat with the LLM
+## Chat with LLM
 Chat with the LLM using the RAG system:
 
 `python cli.py --chat --chunk_type recursive-split`
@@ -76,3 +79,5 @@ This will:
 * Retrieves relevant context from the vector database
 * Sends the query and context to the LLM
 * Displays the LLM's response
+
+To test out chat with LLM using RAG, you can use this [Chat Tool](https://ac215-llm-rag.dlops.io/chat)
