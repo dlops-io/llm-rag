@@ -17,7 +17,7 @@ In this tutorial we will build a Retrieval-Augmented Generation (RAG) system usi
 - Run `sh docker-shell.sh`
 
 ## Chunk Documents
-Run the cli.py script with the --chunk flag to split your input texts into smaller chunks:
+Run the cli.py script with the --chunk flag to split your input texts into smaller chunks. To understand more about chunking check out this [visualization](https://ac215-llm-rag.dlops.io/chunkviz)
 
 Perform Character splitting:
 
