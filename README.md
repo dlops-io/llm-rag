@@ -62,6 +62,8 @@ To view the contents of your Vector Database you can use this [Chroma UI Tool](h
 ## Query the Vector Database
 Test querying the vector database:
 
+`python cli.py --query --chunk_type char-split`
+
 `python cli.py --query --chunk_type recursive-split`
 
 This will:
@@ -71,6 +73,9 @@ This will:
 
 ## Chat with LLM
 Chat with the LLM using the RAG system:
+
+
+`python cli.py --chat --chunk_type char-split`
 
 `python cli.py --chat --chunk_type recursive-split`
 
