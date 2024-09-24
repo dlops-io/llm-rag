@@ -17,7 +17,7 @@ In this tutorial we will build a Retrieval-Augmented Generation (RAG) system usi
 - Run `sh docker-shell.sh`
 
 ## Chunk Documents
-Run the cli.py script with the --chunk flag to split your input texts into smaller chunks. To understand more about chunking check out this [visualization](https://ac215-llm-rag.dlops.io/chunkviz)
+Run the cli.py script with the --chunk flag to split your input texts into smaller chunks. To understand more about chunking check out this [visualization](https://ac215-llm-rag.dlops.io/chunkviz). Use Chrome browser for best performance.
 
 **Perform Character splitting:**
 
@@ -57,7 +57,7 @@ This will:
 * Creates a new collection (or clears an existing one)
 * Loads the embeddings and associated metadata into the collection
 
-To view the contents of your Vector Database you can use this [Chroma UI Tool](https://ac215-llm-rag.dlops.io/chromaui)
+To view the contents of your Vector Database you can use this [Chroma UI Tool](https://ac215-llm-rag.dlops.io/chromaui). Use Chrome browser for best performance.
 
 ## Query the Vector Database
 Test querying the vector database:
@@ -85,4 +85,4 @@ This will:
 * Sends the query and context to the LLM
 * Displays the LLM's response
 
-To test out chat with LLM using RAG, you can use this [Chat Tool](https://ac215-llm-rag.dlops.io/chat)
+To test out chat with LLM using RAG, you can use this [Chat Tool](https://ac215-llm-rag.dlops.io/chat). Use Chrome browser for best performance.

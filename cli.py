@@ -274,6 +274,7 @@ def chat(method="char-split"):
 
 	query = "How is cheese made?"
 	query_embedding = generate_query_embedding(query)
+	print("Query:", query)
 	print("Embedding values:", query_embedding)
 	# Get the collection
 	collection = client.get_collection(name=collection_name)
