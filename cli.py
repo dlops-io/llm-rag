@@ -4,6 +4,7 @@ import pandas as pd
 import json
 import time
 import glob
+import hashlib
 import chromadb
 
 # Vertex AI
@@ -82,13 +83,19 @@ def generate_text_embeddings(chunks, dimensionality: int = 256, batch_size=250):
 
 
 def load_text_embeddings(df, collection, batch_size=500):
+
+	# Generate ids
+	df["id"] = df.index.astype(str)
+	hashed_books = df["book"].apply(lambda x: hashlib.sha256(x.encode()).hexdigest()[:16])
+	df["id"] = hashed_books + "-" + df["id"]
    
 	# Process data in batches
 	total_inserted = 0
 	for i in range(0, df.shape[0], batch_size):
-		batch = df.iloc[i:i+batch_size]
+		# Create a copy of the batch and reset the index
+		batch = df.iloc[i:i+batch_size].copy().reset_index(drop=True)
 
-		ids = batch.index.astype(str).tolist() 
+		ids = batch["id"].tolist()
 		documents = batch["chunk"].tolist() 
 		metadatas = [{"book":item} for item in batch["book"].tolist()]
 		embeddings = batch["embedding"].tolist()
@@ -203,7 +210,7 @@ def load(method="char-split"):
 	except Exception:
 		print(f"Collection '{collection_name}' did not exist. Creating new.")
 
-	collection = client.create_collection(name=collection_name)
+	collection = client.create_collection(name=collection_name, metadata={"hnsw:space": "cosine"})
 	print(f"Created new empty collection '{collection_name}'")
 	print("Collection:", collection)
 
@@ -244,6 +251,7 @@ def query(method="char-split"):
 		query_embeddings=[query_embedding],
 		n_results=10
 	)
+	print("Query:", query)
 	print("\n\nResults:", results)
 
 	# 2: Query based on embedding value + metadata filter
@@ -252,6 +260,7 @@ def query(method="char-split"):
 		n_results=10,
 		where={"book":"The Complete Book of Cheese"}
 	)
+	print("Query:", query)
 	print("\n\nResults:", results)
 
 	# 3: Query based on embedding value + lexical search filter
@@ -261,6 +270,7 @@ def query(method="char-split"):
 		n_results=10,
 		where_document={"$contains": search_string}
 	)
+	print("Query:", query)
 	print("\n\nResults:", results)
 
 
