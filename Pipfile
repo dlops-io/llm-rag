@@ -15,7 +15,6 @@ pandas = "*"
 langchain = "*"
 llama-index = "*"
 chromadb = "*"
-langchain-experimental = "*"
 
 [requires]
 python_version = "3.12"
