@@ -15,6 +15,8 @@ from vertexai.generative_models import GenerativeModel
 # Langchain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+#from langchain_experimental.text_splitter import SemanticChunker
+from semantic_splitter import SemanticChunker
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -60,7 +62,19 @@ generative_model = GenerativeModel(
 	system_instruction=[SYSTEM_INSTRUCTION]
 )
 
-
+book_mappings = {
+	"Cheese and its economical uses in the diet": {"author":"C. F. Langworthy and Caroline Louisa Hunt", "year": 2023},
+	"Cottage Cheese Recipe Book":{"author": "Milk Industry Foundation", "year": 2021},
+	"Dairying exemplified, or, The business of cheese-making": {"author":"J. Twamley", "year": 2023},
+	"Hand-book on cheese making": {"author":"George E. Newell", "year": 2023},
+	"Hints on cheese-making, for the dairyman, the factoryman, and the manufacturer": {"author":"T. D. Curtis", "year": 2013},
+	"The Book of Cheese": {"author":"Charles Thom and W. W. Fisk", "year": 2012},
+	"The book of The Cheese Being traits and stories of Ye Olde Cheshire Cheese": {"author":"Thomas Wilson Reid", "year": 2023},
+	"The Complete Book of Cheese": {"author":"Bob Brown", "year": 2024},
+	"Theres Pippins and Cheese to Come": {"author":"Charles S. Brooks", "year": 2003},
+	"Womans Institute Library of Cookery. Volume 2_ Milk, Butter and Cheese Eggs Vegetables": {"author":"Woman's Institute of Domestic Arts and Sciences", "year": 2006},
+	"Tolminc Cheese": {"author": "Pavlos Protopapas", "year": 2024}
+}
 
 def generate_query_embedding(query):
 	query_embedding_inputs = [TextEmbeddingInput(task_type='RETRIEVAL_DOCUMENT', text=query)]
@@ -88,6 +102,14 @@ def load_text_embeddings(df, collection, batch_size=500):
 	df["id"] = df.index.astype(str)
 	hashed_books = df["book"].apply(lambda x: hashlib.sha256(x.encode()).hexdigest()[:16])
 	df["id"] = hashed_books + "-" + df["id"]
+
+	metadata = {
+		"book": df["book"].tolist()[0]
+	}
+	if metadata["book"] in book_mappings:
+		book_mapping = book_mappings[metadata["book"]]
+		metadata["author"] = book_mapping["author"]
+		metadata["year"] = book_mapping["year"]
    
 	# Process data in batches
 	total_inserted = 0
@@ -97,7 +119,7 @@ def load_text_embeddings(df, collection, batch_size=500):
 
 		ids = batch["id"].tolist()
 		documents = batch["chunk"].tolist() 
-		metadatas = [{"book":item} for item in batch["book"].tolist()]
+		metadatas = [metadata for item in batch["book"].tolist()]
 		embeddings = batch["embedding"].tolist()
 
 		collection.add(
@@ -152,6 +174,15 @@ def chunk(method="char-split"):
 			text_chunks = text_splitter.create_documents([input_text])
 			text_chunks = [doc.page_content for doc in text_chunks]
 			print("Number of chunks:", len(text_chunks))
+		
+		elif method == "semantic-split":
+			# Init the splitter
+			text_splitter = SemanticChunker(embedding_function=generate_text_embeddings)
+			# Perform the splitting
+			text_chunks = text_splitter.create_documents([input_text])
+			
+			text_chunks = [doc.page_content for doc in text_chunks]
+			print("Number of chunks:", len(text_chunks))
 
 		if text_chunks is not None:
 			# Save the chunks
@@ -181,7 +212,10 @@ def embed(method="char-split"):
 		print(data_df.head())
 
 		chunks = data_df["chunk"].values
-		embeddings = generate_text_embeddings(chunks,EMBEDDING_DIMENSION, batch_size=100)
+		if method == "semantic-split":
+			embeddings = generate_text_embeddings(chunks,EMBEDDING_DIMENSION, batch_size=15)
+		else:
+			embeddings = generate_text_embeddings(chunks,EMBEDDING_DIMENSION, batch_size=100)
 		data_df["embedding"] = embeddings
 
 		# Save 
@@ -239,7 +273,7 @@ def query(method="char-split"):
 	# Get a collection object from an existing collection, by name. If it doesn't exist, create it.
 	collection_name = f"{method}-collection"
 
-	query = "How is cheese made?"
+	query = "How is tolminc cheese made?"
 	query_embedding = generate_query_embedding(query)
 	print("Embedding values:", query_embedding)
 
@@ -313,6 +347,25 @@ def chat(method="char-split"):
 	print("LLM Response:", generated_text)
 
 
+def get(method="char-split"):
+	print("chat()")
+
+	# Connect to chroma DB
+	client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
+	# Get a collection object from an existing collection, by name. If it doesn't exist, create it.
+	collection_name = f"{method}-collection"
+
+	# Get the collection
+	collection = client.get_collection(name=collection_name)
+
+	# Get documents with filters
+	results = collection.get(
+		where={"book":"The Complete Book of Cheese"},
+		limit=10
+	)
+	print("\n\nResults:", results)
+
+
 def main(args=None):
 	print("CLI Arguments:", args)
 
@@ -330,6 +383,9 @@ def main(args=None):
 	
 	if args.chat:
 		chat(method=args.chunk_type)
+	
+	if args.get:
+		get(method=args.chunk_type)
 
 
 if __name__ == "__main__":
@@ -361,6 +417,11 @@ if __name__ == "__main__":
 		"--chat",
 		action="store_true",
 		help="Chat with LLM",
+	)
+	parser.add_argument(
+		"--get",
+		action="store_true",
+		help="Get documents from vector db",
 	)
 	parser.add_argument("--chunk_type", default="char-split", help="char-split | recursive-split")
 
