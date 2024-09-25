@@ -10,14 +10,14 @@ import chromadb
 # Vertex AI
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
-from vertexai.generative_models import GenerativeModel
+from vertexai.generative_models import GenerativeModel, GenerationConfig, Content, Part, ToolConfig
 
 # Langchain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 #from langchain_experimental.text_splitter import SemanticChunker
 from semantic_splitter import SemanticChunker
-#import agent_tools
+import agent_tools
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -340,12 +340,12 @@ def chat(method="char-split"):
 	"""
 
 	print("INPUT_PROMPT: ",INPUT_PROMPT)
-	responses = generative_model.generate_content(
+	response = generative_model.generate_content(
 		[INPUT_PROMPT],  # Input prompt
 		generation_config=generation_config,  # Configuration settings
 		stream=False,  # Enable streaming for responses
 	)
-	generated_text = responses.text
+	generated_text = response.text
 	print("LLM Response:", generated_text)
 
 
@@ -371,18 +371,54 @@ def get(method="char-split"):
 def agent(method="char-split"):
 	print("agent()")
 
-	INPUT_PROMPT = f"""
-	How is cheese made?
-	"""
+	# Connect to chroma DB
+	client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
+	# Get a collection object from an existing collection, by name. If it doesn't exist, create it.
+	collection_name = f"{method}-collection"
+	# Get the collection
+	collection = client.get_collection(name=collection_name)
 
-	print("INPUT_PROMPT: ",INPUT_PROMPT)
-	responses = generative_model.generate_content(
-		[INPUT_PROMPT],  # Input prompt
-		generation_config=generation_config,  # Configuration settings
-		stream=False,  # Enable streaming for responses
+	# User prompt
+	user_prompt_content = Content(
+    	role="user",
+		parts=[
+			Part.from_text("Describe where cheese making is important in Pavlos's book?"),
+		],
 	)
-	generated_text = responses.text
-	print("LLM Response:", generated_text)
+	
+	# Step 1: Prompt LLM to find the tool(s) to execute to find the relevant chunks in vector db
+	print("user_prompt_content: ",user_prompt_content)
+	response = generative_model.generate_content(
+		user_prompt_content,
+		generation_config=GenerationConfig(temperature=0),  # Configuration settings
+		tools=[agent_tools.cheese_expert_tool],  # Tools available to the model
+		tool_config=ToolConfig(
+			function_calling_config=ToolConfig.FunctionCallingConfig(
+				# ANY mode forces the model to predict only function calls
+				mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
+		))
+	)
+	print("LLM Response:", response)
+
+	# Step 2: Execute the function and send chunks back to LLM to answer get the final response
+	function_calls = response.candidates[0].function_calls
+	print("Function calls:")
+	function_responses = agent_tools.execute_function_calls(function_calls,collection,embed_func=generate_query_embedding)
+	if len(function_responses) == 0:
+		print("Function calls did not result in any responses...")
+	else:
+		# Call LLM with retrieved responses
+		response = generative_model.generate_content(
+			[
+				user_prompt_content,  # User prompt
+				response.candidates[0].content,  # Function call response
+				Content(
+					parts=function_responses
+				),
+			],
+			tools=[agent_tools.cheese_expert_tool],
+		)
+		print("LLM Response:", response)
 
 
 def main(args=None):
