@@ -120,5 +120,16 @@ This will:
 
 ## Agents
 
+In this section we will implement and use an AI Agent (Cheese Expert Agent) to perform question answering. AI agents are designed to perform specific tasks, answer questions, and automate processes for users. We will build an cheese agent which can perform the following tasks:
+* Answer a question from a specific book given an author name
+* Answer a question from any book (Similar to our RAG approach above) 
 
+Run the following command to perform
 
+`python cli.py --agent --chunk_type char-split`
+
+This will:
+* Take the user question and pass it to LLM to find the user intent
+* Perform function calling to get all the responses required to answer the question
+* Pass the query and context to the LLM
+* Displays the LLM's response
