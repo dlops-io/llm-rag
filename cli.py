@@ -17,6 +17,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 #from langchain_experimental.text_splitter import SemanticChunker
 from semantic_splitter import SemanticChunker
+#import agent_tools
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
@@ -75,6 +76,7 @@ book_mappings = {
 	"Womans Institute Library of Cookery. Volume 2_ Milk, Butter and Cheese Eggs Vegetables": {"author":"Woman's Institute of Domestic Arts and Sciences", "year": 2006},
 	"Tolminc Cheese": {"author": "Pavlos Protopapas", "year": 2024}
 }
+
 
 def generate_query_embedding(query):
 	query_embedding_inputs = [TextEmbeddingInput(task_type='RETRIEVAL_DOCUMENT', text=query)]
@@ -348,7 +350,7 @@ def chat(method="char-split"):
 
 
 def get(method="char-split"):
-	print("chat()")
+	print("get()")
 
 	# Connect to chroma DB
 	client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
@@ -364,6 +366,23 @@ def get(method="char-split"):
 		limit=10
 	)
 	print("\n\nResults:", results)
+
+
+def agent(method="char-split"):
+	print("agent()")
+
+	INPUT_PROMPT = f"""
+	How is cheese made?
+	"""
+
+	print("INPUT_PROMPT: ",INPUT_PROMPT)
+	responses = generative_model.generate_content(
+		[INPUT_PROMPT],  # Input prompt
+		generation_config=generation_config,  # Configuration settings
+		stream=False,  # Enable streaming for responses
+	)
+	generated_text = responses.text
+	print("LLM Response:", generated_text)
 
 
 def main(args=None):
@@ -386,6 +405,9 @@ def main(args=None):
 	
 	if args.get:
 		get(method=args.chunk_type)
+	
+	if args.agent:
+		agent(method=args.chunk_type)
 
 
 if __name__ == "__main__":
@@ -423,7 +445,12 @@ if __name__ == "__main__":
 		action="store_true",
 		help="Get documents from vector db",
 	)
-	parser.add_argument("--chunk_type", default="char-split", help="char-split | recursive-split")
+	parser.add_argument(
+		"--agent",
+		action="store_true",
+		help="Chat with LLM Agent",
+	)
+	parser.add_argument("--chunk_type", default="char-split", help="char-split | recursive-split | semantic-split")
 
 	args = parser.parse_args()
 

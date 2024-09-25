@@ -104,3 +104,21 @@ This will:
 * Displays the LLM's response
 
 To test out chat with LLM using RAG, you can use this [Chat Tool](https://ac215-llm-rag.dlops.io/chat). Use Chrome browser for best performance.
+
+## Advanced RAG: Semantic Chunking (Semantic Splitting)
+
+Run the following command to perform chunking -> embedding -> loading the vector db
+
+`python cli.py --chunk --embed --load --chunk_type semantic-split`
+
+This will:
+* Read each text file in the input-datasets/books directory
+* Split the text into chunks using semantic splitting method
+* Save the chunks as JSONL files in the outputs directory
+* Reads each JSONL file of chunks and converts to embeddings and saves them
+* Loads each JSONL file with embeddings into the vector db
+
+## Agents
+
+
+
