@@ -133,3 +133,5 @@ This will:
 * Perform function calling to get all the responses required to answer the question
 * Pass the query and context to the LLM
 * Displays the LLM's response
+
+To test out the Cheese Agent, you can use this [Cheese Agent Tool](https://ac215-llm-rag.dlops.io/agent). Use Chrome browser for best performance.
