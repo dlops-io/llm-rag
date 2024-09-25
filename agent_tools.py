@@ -73,6 +73,19 @@ def execute_function_calls(function_calls,collection, embed_func):
 						},
 					),
 			)
+        if function_call.name == "get_book_by_search_content":
+            print("Calling function with args:", function_call.args["search_content"])
+            response = get_book_by_search_content(function_call.args["search_content"],collection, embed_func)
+            print("Response:", response)
+            #function_responses.append({"function_name":function_call.name, "response": response})
+            parts.append(
+					Part.from_function_response(
+						name=function_call.name,
+						response={
+							"content": response,
+						},
+					),
+			)
 
     
     return parts
