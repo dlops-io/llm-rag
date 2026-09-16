@@ -437,7 +437,7 @@ def agent(method="char-split"):
     )
 
     # Step 1: Prompt LLM to find the tool(s) to execute to find the relevant chunks in vector db
-    print("user_prompt_content: ", user_prompt_content)
+    print("\n\n\n\nuser_prompt_content: ", user_prompt_content)
     response = llm_client.models.generate_content(
         model=GENERATIVE_MODEL,
         contents=user_prompt_content,
@@ -451,11 +451,11 @@ def agent(method="char-split"):
             )
         )
     )
-    print("LLM Response:", response)
+    print("\n\n\n\nLLM Response:", response)
 
     # Step 2: Execute the function and send chunks back to LLM to answer get the final response
     function_calls = [part.function_call for part in response.candidates[0].content.parts if part.function_call]
-    print("Function calls:", function_calls)
+    print("\n\n\n\nFunction calls:", function_calls)
     function_responses = agent_tools.execute_function_calls(
         function_calls, collection, embed_func=generate_query_embedding)
     if len(function_responses) == 0:
@@ -475,7 +475,7 @@ def agent(method="char-split"):
                 tools=[agent_tools.cheese_expert_tool]
             )
         )
-        print("LLM Response:", response)
+        print("\n\n\n\nLLM Response:", response)
 
 
 def main(args=None):

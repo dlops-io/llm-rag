@@ -87,8 +87,9 @@ def execute_function_calls(function_calls, collection, embed_func):
         print("Function:", function_call.name)
         if function_call.name == "get_book_by_author":
             print(
-                "Calling function with args:",
+                "\n\nCalling function with args:",
                 function_call.args["author"],
+                ",",
                 function_call.args["search_content"],
             )
             response = get_book_by_author(
@@ -97,7 +98,7 @@ def execute_function_calls(function_calls, collection, embed_func):
                 collection,
                 embed_func,
             )
-            print("Response:", response)
+            print("\n\nResponse:", response)
             # function_responses.append({"function_name":function_call.name, "response": response})
             parts.append(
                 types.Part.from_function_response(
