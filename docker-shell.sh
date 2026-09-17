@@ -19,4 +19,4 @@ docker network inspect llm-rag-network >/dev/null 2>&1 || docker network create 
 docker build -t $IMAGE_NAME -f Dockerfile .
 
 # Run All Containers
-docker-compose run --rm --service-ports $IMAGE_NAME
+docker compose run --rm --service-ports $IMAGE_NAME

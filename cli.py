@@ -21,10 +21,10 @@ import agent_tools
 
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
-GCP_LOCATION = "us-central1"
+GCP_LOCATION = "global"
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
-GENERATIVE_MODEL = "gemini-2.0-flash-001"
+GENERATIVE_MODEL = "gemini-3.1-flash-lite"
 INPUT_FOLDER = "input-datasets"
 OUTPUT_FOLDER = "outputs"
 CHROMADB_HOST = "llm-rag-chromadb"
