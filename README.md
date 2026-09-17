@@ -2,11 +2,11 @@
 
 In this tutorial we will build a Retrieval-Augmented Generation (RAG) system using a vector database and a Large Language Model (LLM). The system chunks text documents, creates embeddings, stores them in a vector database, and uses them to enhance LLM responses.
 
-**Step 1:**
+**Step 1: Chunk -> Embed -> Load**
 
 ![RAG pipeline — Step 1: chunk documents, embed the chunks, and load them into the vector database](images/llm-rag-flow-1.png)
 
-**Step 2:**
+**Step 2: Query -> Embed -> Retrieve -> LLM -> Generate Answer**
 
 ![RAG pipeline — Step 2: embed the query, retrieve the most relevant chunks, and generate a grounded answer](images/llm-rag-flow-2.png)
 
