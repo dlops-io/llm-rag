@@ -1,7 +1,7 @@
 networks:
     default:
         name: llm-rag-network
-        #external: true
+
 services:
     llm-rag-cli:
         image: llm-rag-cli
