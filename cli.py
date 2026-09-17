@@ -22,7 +22,7 @@ import agent_tools
 # Setup
 GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCP_LOCATION = "global"
-EMBEDDING_MODEL = "text-embedding-004"
+EMBEDDING_MODEL = "gemini-embedding-001"
 EMBEDDING_DIMENSION = 256
 GENERATIVE_MODEL = "gemini-3.1-flash-lite"
 INPUT_FOLDER = "input-datasets"
