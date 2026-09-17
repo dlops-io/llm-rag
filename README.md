@@ -1,14 +1,40 @@
 # Building a RAG System with Vector DB and LLM
 
-In this tutorial we will build a Retrieval-Augmented Generation (RAG) system using a vector database and a Large Language Model (LLM). The system will chunk text documents, create embeddings, stores them in a vector database, and uses them to enhance LLM responses.
+In this tutorial we will build a Retrieval-Augmented Generation (RAG) system using a vector database and a Large Language Model (LLM). The system chunks text documents, creates embeddings, stores them in a vector database, and uses them to enhance LLM responses.
 
 **Step 1:**
 
-![](images/llm-rag-flow-1.png)
+![RAG pipeline — Step 1: chunk documents, embed the chunks, and load them into the vector database](images/llm-rag-flow-1.png)
 
 **Step 2:**
 
-![](images/llm-rag-flow-2.png)
+![RAG pipeline — Step 2: embed the query, retrieve the most relevant chunks, and generate a grounded answer](images/llm-rag-flow-2.png)
+
+## What you'll build
+
+The goal: **answer questions about a corpus of cheese books using an LLM grounded in your own documents**. We build the pipeline up one stage at a time, each adding a piece of the RAG system:
+
+1. 📦 **Chunk** the source books into small, overlapping pieces of text.
+2. 🔢 **Embed** each chunk into a vector using a Gemini embeddings model.
+3. 🗄️ **Load** the vectors into ChromaDB, a persistent vector database.
+4. 🔍 **Query** the database to retrieve the chunks most similar to a question.
+5. 💬 **Chat** — feed the retrieved chunks to the LLM so it answers grounded in your documents, not its own training data.
+
+Two advanced stages then build on this: **semantic chunking** (splitting on meaning instead of character count) and an **agent** that decides which retrieval tool to call.
+
+---
+
+## Contents
+
+- [Prerequisites](#prerequisites)
+- [Run LLM RAG Container](#run-llm-rag-container)
+- [Chunk Documents](#chunk-documents)
+- [Generate Embeddings](#generate-embeddings)
+- [Load Embeddings into Vector Database](#load-embeddings-into-vector-database)
+- [Query the Vector Database](#query-the-vector-database)
+- [Chat with LLM](#chat-with-llm)
+- [Advanced RAG: Semantic Chunking](#advanced-rag-semantic-chunking-semantic-splitting)
+- [Agents](#agents)
 
 ---
 
@@ -38,9 +64,9 @@ Your folder structure should look like this:
 
 ---
 
-
-
 ## Run LLM RAG Container
+
+_**Setup** — build and start the containers. You'll run every command in the rest of this tutorial from inside this container._
 
 1. Make sure you are inside the `llm-rag` folder and open a terminal at this location.
 2. Update `GCP_PROJECT` to your own project ID in `docker-shell.sh`.
@@ -52,13 +78,14 @@ sh docker-shell.sh
 
 ---
 
-
-
 ## Chunk Documents
+
+_**Step 1 of 5** — split each book into small, overlapping pieces of text. Smaller chunks retrieve more precisely, and the overlap keeps ideas from being cut in half at a boundary._
 
 Run the `cli.py` script with the `--chunk` flag to split your input texts into smaller chunks. To understand more about chunking check out this [visualization](https://ac215-llm-rag.dlops.io/chunkviz).
 
-> ℹ️ Use Chrome browser for best performance.
+> [!NOTE]
+> Use Chrome browser for best performance.
 
 **Perform Character splitting:**
 
@@ -80,9 +107,9 @@ This will:
 
 ---
 
-
-
 ## Generate Embeddings
+
+_**Step 2 of 5** — turn every chunk into a numeric vector that captures its meaning, so chunks can be compared by similarity later._
 
 Generate embeddings for the text chunks:
 
@@ -100,9 +127,9 @@ This will:
 
 ---
 
-
-
 ## Load Embeddings into Vector Database
+
+_**Step 3 of 5** — store the vectors and their metadata in ChromaDB so they can be searched. This is the one persistent piece: do it once and reuse it._
 
 Load the generated embeddings into ChromaDB:
 
@@ -120,13 +147,14 @@ This will:
 
 To view the contents of your Vector Database you can use this [Chroma UI Tool](https://ac215-llm-rag.dlops.io/chromaui).
 
-> ℹ️ Use Chrome browser for best performance.
+> [!NOTE]
+> Use Chrome browser for best performance.
 
 ---
 
-
-
 ## Query the Vector Database
+
+_**Step 4 of 5** — retrieve the chunks most similar to a question. No LLM yet: this is the retrieval half of RAG, so you can see exactly what the model will be given._
 
 Test querying the vector database:
 
@@ -137,15 +165,15 @@ python cli.py --query --chunk_type recursive-split
 
 This will:
 
-- Generate an embedding for a sample query: "How is tolminc cheese made?" 
+- Generate an embedding for a sample query: "How is tolminc cheese made?"
 - Perform similarity searches in the vector database
 - Apply various types of filters on the queries
 
 ---
 
-
-
 ## Chat with LLM
+
+_**Step 5 of 5** — the full RAG loop: retrieve relevant chunks, hand them to the LLM as context, and get an answer grounded in your documents._
 
 Chat with the LLM using the RAG system:
 
@@ -163,13 +191,14 @@ This will:
 
 To test out chat with LLM using RAG, you can use this [Chat Tool](https://ac215-llm-rag.dlops.io/chat).
 
-> ℹ️ Use Chrome browser for best performance.
+> [!NOTE]
+> Use Chrome browser for best performance.
 
 ---
 
-
-
 ## Advanced RAG: Semantic Chunking (Semantic Splitting)
+
+_**Advanced** — instead of splitting on a fixed character count, split where the meaning shifts. This runs the full chunk → embed → load pipeline with a smarter splitter._
 
 Run the following command to perform chunking → embedding → loading the vector db:
 
@@ -187,18 +216,18 @@ This will:
 
 ---
 
-
-
 ## Agents
 
-In this section we will implement and use an AI Agent (Cheese Expert Agent) to perform question answering. AI agents are designed to perform specific tasks, answer questions, and automate processes for users. We will build an cheese agent which can perform the following tasks:
+_**Advanced** — let the LLM decide how to retrieve. The agent picks a tool (search by author, or search across all books), then answers from what it gets back._
+
+In this section we will implement and use an AI Agent (Cheese Expert Agent) to perform question answering. AI agents are designed to perform specific tasks, answer questions, and automate processes for users. We will build a cheese agent which can perform the following tasks:
 
 - Answer a question from a specific book given an author name
-- Answer a question from any book (Similar to our RAG approach above)
+- Answer a question from any book (similar to our RAG approach above)
 
 This is the flow of information as compared to the above RAG method:
 
-![](images/llm-rag-flow-3.png)
+![Agent flow: the LLM selects a retrieval tool, fetches the relevant chunks, then answers the question](images/llm-rag-flow-3.png)
 
 Run the following command to perform:
 
@@ -215,5 +244,5 @@ This will:
 
 To test out the Cheese Agent, you can use this [Cheese Agent Tool](https://ac215-llm-rag.dlops.io/agent).
 
-> ℹ️ Use Chrome browser for best performance.
-
+> [!NOTE]
+> Use Chrome browser for best performance.
