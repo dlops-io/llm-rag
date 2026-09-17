@@ -1,10 +1,11 @@
 networks:
     default:
         name: llm-rag-network
-        external: true
+        #external: true
 services:
     llm-rag-cli:
         image: llm-rag-cli
+        build: .
         container_name: llm-rag-cli
         volumes:
             - ../secrets:/secrets
@@ -20,8 +21,4 @@ services:
         ports:
             - 8000:8000
         volumes:
-            - ./docker-volumes/chromadb:/chroma/chroma
-        environment:
-            - IS_PERSISTENT=TRUE
-            - ANONYMIZED_TELEMETRY=FALSE
-            - CHROMA_CORS_ALLOW_ORIGINS=["*"] # This is not recommended for production environments.
+            - ./docker-volumes/chromadb:/data
