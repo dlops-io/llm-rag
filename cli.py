@@ -369,7 +369,7 @@ def chat(method="char-split"):
     # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
     collection_name = f"{method}-collection"
 
-    query = "How is cheese made?"
+    query = "How is tolminc cheese made??"
     query_embedding = generate_query_embedding(query)
     print("Query:", query)
     print("Embedding values:", query_embedding)
