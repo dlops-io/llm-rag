@@ -22,3 +22,5 @@ services:
             - 8000:8000
         volumes:
             - ./docker-volumes/chromadb:/data
+        environment:
+            CHROMA_CORS_ALLOW_ORIGINS: '["https://ac215-llm-rag.dlops.io"]'
