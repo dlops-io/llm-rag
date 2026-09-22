@@ -91,3 +91,47 @@ ruly began to take shape. As permanent settlements grew in the Soča Valley, so 
 The 
  imparts unique flavors and aromas to the milk - subtle notes that will later emerge in the finished cheese.
 The milking process itself is a blend of tradition and modernity. While some smaller producers still milk by hand, maintaining an intimate connection with their animals, many now use modern milking machines. Regardless of the method, the foc
+
+
+
+
+LLM Response: sdk_http_response=HttpResponse(
+  headers=<dict len=10>
+) candidates=[Candidate(
+  content=Content(
+    parts=[
+      Part(
+        text="""In Pavlos Protopapas's work, cheese-making—specifically that of **Tolminc cheese**—is highlighted as fundamentally important to the **Alpine region, particularly the Soča Valley.**
+
+According to the text, the importance of cheese-making in this region is defined by several factors:
+
+*   **Economic and Cultural Cornerstone:** Cheese-making emerged as a vital economic activity and a cornerstone of local cuisine, serving as a way to preserve milk. It is described as a "cultural artifact" and an "economic driver" that reflects the bond between the people and their land.
+*   **Historical Significance:** The practice is deeply rooted in the region's history, dating back to early Bronze Age settlements. It was further refined and standardized during the Middle Ages, with monastic orders playing a significant role in developing these techniques.
+*   **Geographical Suitability:** The Alpine landscape of the Soča Valley provides ideal conditions for cattle rearing and cheese production. The region's natural limestone caves and cellars offer the perfect, consistent environment for the aging process, which is essential to the cheese's development.
+*   **Survival and Tradition:** The production of Tolminc cheese was essential for the region's traditional lifestyle, known as *transhumance* (the seasonal movement of livestock), as it provided a stable, nutritious food source with a long shelf life. 
+
+Protopapas emphasizes that cheese-making is not merely a production process but a testament to how the local community has adapted to its environment over centuries.""",
+        thought_signature=b'\x01\x8f=k_\xc05YH]\xc3A\x99\xe8\xdd\xe2\x19C\x90\xe1\x11\xef@-\x86$P\t%<D|\x92\xa5ko\xfc\x9b\x8e\x99\x9f\x82\xdb(\xe2\x07\x00d\x18\x16|L\xcc\xf7\x9a\xf3\x14f\x1e\xd1\xb9\xb2\xa9\x89\xf8\xb5\xb1\x12\xed\xbd\xf5\x9f\xfd\xf77\xb0\x16\xe8\xd0_\x9e\xf4d'
+      ),
+    ],
+    role='model'
+  ),
+  finish_reason=<FinishReason.STOP: 'STOP'>
+)] create_time=datetime.datetime(2026, 9, 22, 4, 1, 36, 515999, tzinfo=TzInfo(UTC)) model_version='gemini-3.1-flash-lite' prompt_feedback=None response_id='oP2xap-_H63bsbwPzpbI6QQ' usage_metadata=GenerateContentResponseUsageMetadata(
+  candidates_token_count=315,
+  candidates_tokens_details=[
+    ModalityTokenCount(
+      modality=<MediaModality.TEXT: 'TEXT'>,
+      token_count=315
+    ),
+  ],
+  prompt_token_count=954,
+  prompt_tokens_details=[
+    ModalityTokenCount(
+      modality=<MediaModality.TEXT: 'TEXT'>,
+      token_count=954
+    ),
+  ],
+  total_token_count=1269,
+  traffic_type=<TrafficType.ON_DEMAND: 'ON_DEMAND'>
+) automatic_function_calling_history=[] parsed=None

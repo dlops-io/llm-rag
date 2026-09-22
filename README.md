@@ -24,6 +24,8 @@ Two advanced stages then build on this: **semantic chunking** (splitting on mean
 
 ---
 
+
+
 ## Contents
 
 - [Prerequisites](#prerequisites)
@@ -38,10 +40,14 @@ Two advanced stages then build on this: **semantic chunking** (splitting on mean
 
 ---
 
+
+
 ## Prerequisites
 
 - Have Docker installed
 - Cloned this repository to your local machine — [https://github.com/dlops-io/llm-rag](https://github.com/dlops-io/llm-rag)
+
+
 
 ### Setup GCP Service Account
 
@@ -64,9 +70,11 @@ Your folder structure should look like this:
 
 ---
 
+
+
 ## Run LLM RAG Container
 
-_**Setup** — build and start the containers. You'll run every command in the rest of this tutorial from inside this container._
+***Setup** — build and start the containers. You'll run every command in the rest of this tutorial from inside this container.*
 
 1. Make sure you are inside the `llm-rag` folder and open a terminal at this location.
 2. Update `GCP_PROJECT` to your own project ID in `docker-shell.sh`.
@@ -78,9 +86,11 @@ sh docker-shell.sh
 
 ---
 
+
+
 ## Chunk Documents
 
-_**Step 1 of 5** — split each book into small, overlapping pieces of text. Smaller chunks retrieve more precisely, and the overlap keeps ideas from being cut in half at a boundary._
+***Step 1 of 5** — split each book into small, overlapping pieces of text. Smaller chunks retrieve more precisely, and the overlap keeps ideas from being cut in half at a boundary.*
 
 Run the `cli.py` script with the `--chunk` flag to split your input texts into smaller chunks. To understand more about chunking check out this [visualization](https://ac215-llm-rag.dlops.io/chunkviz).
 
@@ -107,9 +117,11 @@ This will:
 
 ---
 
+
+
 ## Generate Embeddings
 
-_**Step 2 of 5** — turn every chunk into a numeric vector that captures its meaning, so chunks can be compared by similarity later._
+***Step 2 of 5** — turn every chunk into a numeric vector that captures its meaning, so chunks can be compared by similarity later.*
 
 Generate embeddings for the text chunks:
 
@@ -127,9 +139,11 @@ This will:
 
 ---
 
+
+
 ## Load Embeddings into Vector Database
 
-_**Step 3 of 5** — store the vectors and their metadata in ChromaDB so they can be searched. This is the one persistent piece: do it once and reuse it._
+***Step 3 of 5** — store the vectors and their metadata in ChromaDB so they can be searched. This is the one persistent piece: do it once and reuse it.*
 
 Load the generated embeddings into ChromaDB:
 
@@ -152,9 +166,11 @@ To view the contents of your Vector Database you can use this [Chroma UI Tool](h
 
 ---
 
+
+
 ## Query the Vector Database
 
-_**Step 4 of 5** — retrieve the chunks most similar to a question. No LLM yet: this is the retrieval half of RAG, so you can see exactly what the model will be given._
+***Step 4 of 5** — retrieve the chunks most similar to a question. No LLM yet: this is the retrieval half of RAG, so you can see exactly what the model will be given.*
 
 Test querying the vector database:
 
@@ -171,9 +187,11 @@ This will:
 
 ---
 
+
+
 ## Chat with LLM
 
-_**Step 5 of 5** — the full RAG loop: retrieve relevant chunks, hand them to the LLM as context, and get an answer grounded in your documents._
+***Step 5 of 5** — the full RAG loop: retrieve relevant chunks, hand them to the LLM as context, and get an answer grounded in your documents.*
 
 Chat with the LLM using the RAG system:
 
@@ -184,7 +202,8 @@ python cli.py --chat --chunk_type recursive-split
 
 This will:
 
-- Takes a sample query: "How is cheese made?"
+Takes a sample query: "How is tolminc cheese made?"
+
 - Retrieves relevant context from the vector database
 - Sends the query and context to the LLM
 - Displays the LLM's response
@@ -196,9 +215,11 @@ To test out chat with LLM using RAG, you can use this [Chat Tool](https://ac215-
 
 ---
 
+
+
 ## Advanced RAG: Semantic Chunking (Semantic Splitting)
 
-_**Advanced** — instead of splitting on a fixed character count, split where the meaning shifts. This runs the full chunk → embed → load pipeline with a smarter splitter._
+***Advanced** — instead of splitting on a fixed character count, split where the meaning shifts. This runs the full chunk → embed → load pipeline with a smarter splitter.*
 
 Run the following command to perform chunking → embedding → loading the vector db:
 
@@ -216,9 +237,11 @@ This will:
 
 ---
 
+
+
 ## Agents
 
-_**Advanced** — let the LLM decide how to retrieve. The agent picks a tool (search by author, or search across all books), then answers from what it gets back._
+***Advanced** — let the LLM decide how to retrieve. The agent picks a tool (search by author, or search across all books), then answers from what it gets back.*
 
 In this section we will implement and use an AI Agent (Cheese Expert Agent) to perform question answering. AI agents are designed to perform specific tasks, answer questions, and automate processes for users. We will build a cheese agent which can perform the following tasks:
 
@@ -246,3 +269,4 @@ To test out the Cheese Agent, you can use this [Cheese Agent Tool](https://ac215
 
 > [!NOTE]
 > Use Chrome browser for best performance.
+
