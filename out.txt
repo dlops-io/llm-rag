@@ -1,0 +1,93 @@
+CLI Arguments: Namespace(chunk=False, embed=False, load=False, query=False, chat=False, get=False, agent=True, chunk_type='char-split')
+agent()
+
+
+
+
+user_prompt_content:  parts=[Part(
+  text="Describe where cheese making is important in Pavlos's book?"
+)] role='user'
+
+
+
+
+LLM Response: sdk_http_response=HttpResponse(
+  headers=<dict len=10>
+) candidates=[Candidate(
+  content=Content(
+    parts=[
+      Part(
+        function_call=FunctionCall(
+          args={
+            'author': 'Pavlos Protopapas',
+            'search_content': 'cheese making importance location'
+          },
+          id='call_1212960',
+          name='get_book_by_author'
+        ),
+        thought_signature=b'\x01\x8f=k_:\x12\xee\xb5\xefZ\xe36\xa4\xbb;:fS\x88gQ\xc0\x18\xe4V\xcewt\x18\xab\x8d\xb6\x86\xac\x86\x12\xa2\xb4G\x87|\xaa\x7f({\xcd\xc0\xecT\xd4\xe4 \x7f\x94\x9b\xc7F\x05e\xaf\x16\xb2\x06\xb0\x97O\xfeH\x7f\\Bo\xb1\xbd\xc0\xd4e\xb3\xeb\xce\x9a\xff'
+      ),
+    ],
+    role='model'
+  ),
+  finish_reason=<FinishReason.STOP: 'STOP'>
+)] create_time=datetime.datetime(2026, 9, 22, 4, 1, 25, 93163, tzinfo=TzInfo(UTC)) model_version='gemini-3.1-flash-lite' prompt_feedback=None response_id='lf2xauvXBZejl7oP0srHmQI' usage_metadata=GenerateContentResponseUsageMetadata(
+  candidates_token_count=35,
+  candidates_tokens_details=[
+    ModalityTokenCount(
+      modality=<MediaModality.TEXT: 'TEXT'>,
+      token_count=35
+    ),
+  ],
+  prompt_token_count=212,
+  prompt_tokens_details=[
+    ModalityTokenCount(
+      modality=<MediaModality.TEXT: 'TEXT'>,
+      token_count=212
+    ),
+  ],
+  total_token_count=247,
+  traffic_type=<TrafficType.ON_DEMAND: 'ON_DEMAND'>
+) automatic_function_calling_history=[] parsed=None
+
+
+
+
+Function calls: [FunctionCall(
+  args={
+    'author': 'Pavlos Protopapas',
+    'search_content': 'cheese making importance location'
+  },
+  id='call_1212960',
+  name='get_book_by_author'
+)]
+Function: get_book_by_author
+
+
+Calling function with args: Pavlos Protopapas , cheese making importance location
+
+
+Response: the broader context of European cheesemaking traditions. Through this journey, we'll come to understand that Tolminc cheese is more than just a food - it's a cultural artifact, a economic driver, and a testament to the enduring bond between a people and their land.
+
+As we venture further into the 21st century, Tolminc cheese stands as a bridge betw
+s, known as transhumance, shaped not just the economic life of the region but its social and cultural life as well.
+In this context, cheese-making emerged not just as a means of preserving milk, but as a vital economic activity and a cornerstone of local cuisine. Tolminc, with its long shelf life and rich nutritional profile, became a staple food f
+cy - firm enough to hold its shape but still yielding to gentle pressure - it's time for cutting. Using traditional tools, some of which have been passed down through generations, the curd is cut into small, grain-sized pieces.
+This cutting process is crucial, determining much about the final texture and moisture content of the cheese. The smaller 
+to the cheese by name. This document not only confirms the existence of a distinct local cheese but suggests that it had already established a reputation worthy of official note.
+
+The 20th century brought unprecedented challenges to the traditional ways of life in the Alpine regions. Two World Wars ravaged the landscape and disrupted centuries-old 
+ting back to around 2000 BCE, where the foundations of dairy farming were already being laid. Ceramic sieves and other artifacts speak to a people already versed in the art of transforming milk into more stable, storable forms - the precursors to the cheeses we know today.
+
+Yet it was during the Middle Ages that Tolminc cheese truly began to take s
+cterized by cold winters and mild summers with adequate rainfall, creates ideal conditions for both cattle rearing and cheese production. The natural caves and cellars carved into the limestone landscape provide perfect environments for the aging process, their consistent cool temperatures and humidity levels allowing the cheese to develop its comp
+ the method, the focus is always on cleanliness and speed, ensuring the milk retains its freshness and purity.
+Once collected, the milk is quickly transported to the cheese-making facility. Time is of the essence here; the PDO regulations stipulate that the milk must be processed within two milkings, or a maximum of 24 hours. This ensures the milk'
+ional methods have adapted to the demands of the modern world without losing their essential character.
+
+The story of Tolminc cheese begins in the mists of prehistory, when the first pastoral communities began to make their mark on the Alpine landscape. Archaeological evidence paints a picture of early Bronze Age settlements, dating back to around 
+ruly began to take shape. As permanent settlements grew in the Soča Valley, so too did the need to efficiently use and preserve the bounty of the land. Monastic orders, those great preservers of knowledge throughout Europe's tumultuous Dark Ages, likely played a crucial role in refining and standardizing cheesemaking techniques in the region.
+
+The 
+ imparts unique flavors and aromas to the milk - subtle notes that will later emerge in the finished cheese.
+The milking process itself is a blend of tradition and modernity. While some smaller producers still milk by hand, maintaining an intimate connection with their animals, many now use modern milking machines. Regardless of the method, the foc
