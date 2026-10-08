@@ -1,8 +1,0 @@
-node_modules/
-.next/
-
-# misc
-.DS_Store
-env.local
-.eslintcache
-scratch.txt

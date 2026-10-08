@@ -1,7 +1,6 @@
 networks:
     default:
-        name: cheese-app-network
-        external: true
+        name: llm-rag-network
 
 services:
     llm-rag-cli:
@@ -10,7 +9,7 @@ services:
         container_name: llm-rag-cli
         volumes:
             - ../secrets:/secrets
-            - .:/app
+            - ../llm-rag:/app
         environment:
             GOOGLE_APPLICATION_CREDENTIALS: $GOOGLE_APPLICATION_CREDENTIALS
             GCP_PROJECT: $GCP_PROJECT
