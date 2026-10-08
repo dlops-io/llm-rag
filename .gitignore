@@ -2,4 +2,5 @@
 .DS_Store
 /docker-volumes
 /outputs
-__pycache__docker-volumes/
+__pycache__
+docker-volumes/
